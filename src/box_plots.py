@@ -12,9 +12,7 @@ print(data.head())
 if not os.path.exists('./plots'):
     os.makedirs('./plots')
 
-# Create a box plot for each feature relative to the label and save it in ./plots directory
-# Create a box plot for each feature relative to the label and save it in ./plots directory
-# Calculate the average value for each label
+
 label_means = data.groupby('label').mean()
 
 for column in data.columns[:-1]:
