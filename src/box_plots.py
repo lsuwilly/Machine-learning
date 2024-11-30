@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Load the dataset
-data = pd.read_csv('./data/Crop_recommendation.csv')
+data = pd.read_csv('../data/Crop_recommendation.csv')
 print("Dataset Preview:")
 print(data.head())
 
