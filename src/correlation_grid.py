@@ -17,7 +17,7 @@ print("Hello, World!")
 
 """Prove that the data is clean with no null values."""
 
-df = pd.read_csv('sample_data/Crop_recommendation.csv')
+df = pd.read_csv('data/Crop_recommendation.csv')
 print(df.isnull().sum())
 
 # Exclude non-numeric columns for the correlation matrix
@@ -28,6 +28,7 @@ correlation_matrix = numeric_df.corr()
 
 # Plot the heatmap
 plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", cbar=True)
+sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="RdBu", center=0,
+            cbar=True, cbar_kws={'label': 'Correlation Coefficient'})
 plt.title('Correlation Heatmap of Features')
 plt.show()
