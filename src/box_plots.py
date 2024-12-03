@@ -7,10 +7,6 @@ def make_box_plots():
     # Load the dataset
     data = pd.read_csv('./data/Crop_recommendation.csv')
 
-    # print("Dataset Preview:")
-    # print(data.head())
-
-    # columns = N,P,K,temperature,humidity,ph,rainfall,label
     # Create the plots directory if it doesn't exist
     if not os.path.exists('./plots'):
         os.makedirs('./plots')
@@ -18,6 +14,17 @@ def make_box_plots():
     label_means = data.groupby('label').mean()
 
     plots = []
+
+    # Define the units for each column
+    units = {
+        'N': 'mg/kg',
+        'P': 'mg/kg',
+        'K': 'mg/kg',
+        'temperature': '°C',
+        'humidity': '%',
+        'ph': 'ph',
+        'rainfall': 'mm'
+    }
 
     for column in data.columns[:-1]:
         fig, ax = plt.subplots()
@@ -36,15 +43,10 @@ def make_box_plots():
 
         ax.set_title(f'{column} vs crop')
         ax.set_xlabel('crop')
-        ax.set_ylabel(column)
+        ax.set_ylabel(f'{column} ({units[column]})')
 
         plt.xticks(rotation=45, ha='right')
 
-        # print("\n\n")
-        # print(grouped.head().max())
-        # print("\n\n")
-
-        # ax.set_xticks([data['label'].unique])
         fig.savefig(f'./plots/{column}_vs_crop.png',
                     bbox_inches='tight', dpi=300)
 
