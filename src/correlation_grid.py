@@ -17,7 +17,7 @@ print("Hello, World!")
 
 """Prove that the data is clean with no null values."""
 
-df = pd.read_csv('sample_data/Crop_recommendation.csv')
+df = pd.read_csv('./data/Crop_recommendation.csv')
 print(df.isnull().sum())
 
 # Exclude non-numeric columns for the correlation matrix

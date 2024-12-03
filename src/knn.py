@@ -6,31 +6,46 @@ from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
-# Load the dataset
-data = pd.read_csv('../data/Crop_recommendation.csv')
-print("Dataset Preview:")
-print(data.head())
+# Return the predicted class of the data according to knn, 
+# after filtering by predicted label
+def knn_predict(data, sample, label):
 
-# Separate features and target
-X = data.iloc[:, :-1].values  # All columns except the last
-y = data.iloc[:, -1].values   # Last column as target
+    # Filtering by cluster reduces performance
+    # data = data[data["kmeans clusters"] == label]
 
-# Split the dataset
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    # Schema should be like
+    # N   P   K  ...    rainfall   label  kmeans clusters
 
-# Perform feature scaling on the data
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.fit_transform(X_test)
+    print("AFTER FILTERING BY CLUSTER")
+    print(data.head())
 
-# Initialize and train the kNN classifier
-knn = KNeighborsClassifier(n_neighbors=3)
-knn.fit(X_train_scaled, y_train)
+    # Separate features and target
+    X = data.iloc[:, :-2].values  # All columns except the last two (clusters and classes)
+    y = data.iloc[:, -2].values   # Second to last column as target (classes)
+
+    # Split the dataset
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Perform feature scaling on the data
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.fit_transform(X_test)
+
+    # Initialize and train the kNN classifier
+    knn = KNeighborsClassifier(n_neighbors=3)
+    knn.fit(X_train, y_train)
 
 
-# Make predictions
-y_pred = knn.predict(X_test_scaled)
+    # Make predictions
+    y_pred = knn.predict(X_test)
 
-# Evaluate accuracy
-accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy * 100:.2f}%")
+    # Evaluate accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    print(f"Accuracy: {accuracy * 100:.2f}%")
+
+    # Get element 0 because currently we are only passing
+    # one sample case
+    sample_pred = knn.predict(sample)[0]
+    print("Predicted Class of Sample :",sample_pred)
+
+    return sample_pred
