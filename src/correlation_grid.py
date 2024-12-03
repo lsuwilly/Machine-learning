@@ -28,6 +28,7 @@ correlation_matrix = numeric_df.corr()
 
 # Plot the heatmap
 plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", cbar=True)
+sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="RdBu", center=0,
+            cbar=True, cbar_kws={'label': 'Correlation Coefficient'})
 plt.title('Correlation Heatmap of Features')
 plt.show()
