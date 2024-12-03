@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas
-from src.clustering import cluster
+from src.clustering import find_cluster
+from src.box_plots import make_box_plots
+from src.correlation_grid import get_correlation_grid
 
 
 def main():
@@ -28,12 +30,24 @@ def main():
     pred, corr, box_plots= st.tabs(["Prediction", "Correlation", "Box Plots"])
 
     with pred:
-        sample_prediction, pie = cluster(new_data)
+        sample_prediction, pie = find_cluster(new_data)
 
-        st.write("Recommended Crop : ",sample_prediction)
+        st.markdown(f"### Recommended Crop for these growing conditions : {sample_prediction}")
+        st.markdown("")
 
         # Show pie chart of crop distributions for selected cluster
         st.pyplot(pie)
+
+    with corr:
+        grid = get_correlation_grid()
+
+        st.pyplot(grid)
+    
+    with box_plots:
+        plots = make_box_plots()
+
+        for plot in plots:
+            st.pyplot(plot)
 
 if __name__ == "__main__":
     main()

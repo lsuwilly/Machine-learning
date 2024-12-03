@@ -16,7 +16,7 @@ def knn_predict(data, sample, label):
     # Schema should be like
     # N   P   K  ...    rainfall   label  kmeans clusters
 
-    print("AFTER FILTERING BY CLUSTER")
+    print("WITHOUT FILTERING BY CLUSTER")
     print(data.head())
 
     # Separate features and target

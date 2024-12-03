@@ -5,8 +5,9 @@ import os
 def make_box_plots():
     # Load the dataset
     data = pd.read_csv('./data/Crop_recommendation.csv')
-    print("Dataset Preview:")
-    print(data.head())
+    
+    # print("Dataset Preview:")
+    # print(data.head())
 
     # columns = N,P,K,temperature,humidity,ph,rainfall,label
     # Create the plots directory if it doesn't exist
@@ -36,6 +37,8 @@ def make_box_plots():
         ax.set_title(f'{column} vs crop')
         ax.set_xlabel('crop')
         ax.set_ylabel(column)
+
+        plt.xticks(rotation=45, ha='right')
 
         # print("\n\n")
         # print(grouped.head().max())

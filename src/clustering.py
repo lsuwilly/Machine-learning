@@ -5,7 +5,7 @@ from sklearn.cluster import *
 
 from src.knn import *
 
-def cluster(new_data):
+def find_cluster(new_data):
     # Use columns 0 up to and including 6 (Nitrogen to Rainfall)
     crop_data = pandas.read_csv("./data/Crop_recommendation.csv", header = 0, usecols = range(8))
 
@@ -83,8 +83,26 @@ def cluster(new_data):
         # Get the data for the current cluster
         cluster_data = grouped_clusters[grouped_clusters['kmeans clusters'] == cluster]
         
-        # Plot pie chart
-        axes[i].pie(cluster_data['fraction'], labels=cluster_data['label'], autopct='%1.1f%%', startangle=90)
+        # Formatting code for displaying labels around pie chart with arrows
+        wedges, texts, autotexts = axes[i].pie(cluster_data["fraction"],
+                                              labels=cluster_data['label'],
+                                              autopct='%1.1f%%',
+                                              startangle=90,
+                                              pctdistance=0.85,
+                                              wedgeprops={'width':0.3, 'edgecolor':'black'})
+
+        for text in autotexts:
+            text.set(size=12, color='black')
+
+        for j, wedge in enumerate(wedges):
+            angle = (wedge.theta2 - wedge.theta1) / 2. + wedge.theta1
+            x = wedge.r * 0.75 * plt.np.cos(plt.np.radians(angle))
+            y = wedge.r * 0.75 * plt.np.sin(plt.np.radians(angle))
+            axes[i].annotate(cluster_data['label'].iloc[i],
+                        xy=(x,y),
+                        xytext=(1.1 * x, 1.1 * y),
+                        arrowprops=dict(facecolor='black', arrowstyle='->', lw=1))
+
         axes[i].set_title(f'Cluster {cluster}')
 
     plt.tight_layout()
@@ -112,6 +130,6 @@ if __name__ == '__main__':
         'rainfall': [210.0]
     })
 
-    sample_prediction, pie = cluster(new_data)
+    sample_prediction, pie = find_cluster(new_data)
 
     pie.show()
