@@ -13,22 +13,24 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn import datasets
 
-print("Hello, World!")
-
 """Prove that the data is clean with no null values."""
 
-df = pd.read_csv('data/Crop_recommendation.csv')
-print(df.isnull().sum())
+def get_correlation_grid():
+    df = pd.read_csv('./data/Crop_recommendation.csv')
+    print(df.isnull().sum())
 
-# Exclude non-numeric columns for the correlation matrix
-numeric_df = df.select_dtypes(include=['float64', 'int64'])
+    # Exclude non-numeric columns for the correlation matrix
+    numeric_df = df.select_dtypes(include=['float64', 'int64'])
 
-# Calculate the correlation matrix
-correlation_matrix = numeric_df.corr()
+    # Calculate the correlation matrix
+    correlation_matrix = numeric_df.corr()
 
-# Plot the heatmap
-plt.figure(figsize=(10, 8))
-sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="RdBu", center=0,
-            cbar=True, cbar_kws={'label': 'Correlation Coefficient'})
-plt.title('Correlation Heatmap of Features')
-plt.show()
+    fig, ax = plt.subplots()
+
+    # Plot the heatmap
+    fig.set_size_inches(10, 8)
+    sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="RdBu", center=0,
+                cbar=True, cbar_kws={'label': 'Correlation Coefficient'})
+    ax.set_title('Correlation Heatmap of Features')
+    
+    return fig
