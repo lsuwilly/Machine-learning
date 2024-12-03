@@ -26,6 +26,17 @@ def make_box_plots():
         'rainfall': 'mm'
     }
 
+    # Define the full names for each column
+    full_names = {
+        'N': 'Nitrogen',
+        'P': 'Phosphorus',
+        'K': 'Potassium',
+        'temperature': 'Temperature',
+        'humidity': 'Humidity',
+        'ph': 'pH',
+        'rainfall': 'Rainfall'
+    }
+
     for column in data.columns[:-1]:
         fig, ax = plt.subplots()
 
@@ -41,9 +52,9 @@ def make_box_plots():
         ax.boxplot([grouped.get_group(label).values for label in sorted_labels],
                    tick_labels=sorted_labels)
 
-        ax.set_title(f'{column} vs crop')
-        ax.set_xlabel('crop')
-        ax.set_ylabel(f'{column} ({units[column]})')
+        ax.set_title(f'{full_names[column]} vs Crop')
+        ax.set_xlabel('Crop')
+        ax.set_ylabel(f'{full_names[column]} ({units[column]})')
 
         plt.xticks(rotation=45, ha='right')
 
